@@ -71,7 +71,7 @@ module.exports = (db) => {
                     });
                 }
 
-                res.send(rows);
+                res.send(rows[0]);
             });
         });
     });
@@ -112,7 +112,7 @@ module.exports = (db) => {
                 });
             }
 
-            res.send(rows);
+            res.send(rows[0]);
         });
     });
 

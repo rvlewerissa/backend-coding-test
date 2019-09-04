@@ -29,7 +29,7 @@
     "supertest": "^4.0.2"
   },
   "apidoc": {
-    "name": "Xendit Preassesment",
+    "name": "Xendit Preassesment API",
     "version": "0.1.0",
     "description": "Xendit backend coding test documentations",
     "title": "Xendit Preassesment"
