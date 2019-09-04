@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha tests",
-    "start": "node index.js"
+    "start": "node index.js",
+    "generate-documentation": "apidoc -i documentation/ -o apidoc/"
   },
   "keywords": [
     "Xendit"
@@ -21,6 +22,7 @@
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "apidoc": "^0.17.7",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
   }
