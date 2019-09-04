@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha tests",
+    "test": "mocha tests && npm run lint",
+    "lint": "eslint src/*",
     "start": "node index.js",
     "documentation:generate": "apidoc -i documentation/ -o generated/",
     "documentation:serve": "http-server ./generated"
@@ -35,7 +36,7 @@
     "http-server": "^0.11.1",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2",
-    "typescript": "^3.6.2"
+    "typescript": "^3.2.1"
   },
   "apidoc": {
     "name": "Xendit Preassesment API",
