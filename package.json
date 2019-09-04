@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "mocha tests",
-    "start": "node index.js"
+    "start": "node index.js",
+    "documentation:generate": "apidoc -i documentation/ -o generated/",
+    "documentation:serve": "http-server ./generated"
   },
   "keywords": [
     "Xendit"
@@ -21,7 +23,15 @@
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "apidoc": "^0.17.7",
+    "http-server": "^0.11.1",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
+  },
+  "apidoc": {
+    "name": "Xendit Preassesment API",
+    "version": "0.1.0",
+    "description": "Xendit backend coding test documentations",
+    "title": "Xendit Preassesment"
   }
 }
