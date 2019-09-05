@@ -7,9 +7,11 @@
     "test": "tests"
   },
   "scripts": {
+    "start": "forever -c 'node' index.js",
     "test": "nyc mocha tests && npm run lint",
+    "artillery": "artillery run loadTest.yml",
+    "test:load": "npm-run-all -l -r -p start artillery",
     "lint": "eslint index.js src/* tests/*",
-    "start": "node index.js",
     "documentation:generate": "apidoc -i documentation/ -o generated/",
     "documentation:serve": "http-server ./generated"
   },
@@ -21,6 +23,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
+    "forever": "^1.0.0",
     "sqlite": "^3.0.3",
     "winston": "^3.2.1"
   },
@@ -29,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^2.1.0",
     "@typescript-eslint/parser": "^2.1.0",
     "apidoc": "^0.17.7",
+    "artillery": "^1.6.0-28",
     "chai": "^4.2.0",
     "eslint": "^6.3.0",
     "eslint-config-standard": "^14.1.0",
@@ -40,6 +44,7 @@
     "http-server": "^0.11.1",
     "husky": "^3.0.5",
     "mocha": "^6.1.4",
+    "npm-run-all": "^4.1.5",
     "nyc": "^14.1.1",
     "source-map-support": "^0.5.13",
     "supertest": "^4.0.2",

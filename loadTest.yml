@@ -1,0 +1,23 @@
+config:
+  ensure:
+    p99: 50
+  target: 'http://localhost:8010'
+  phases:
+    - duration: 30
+      arrivalRate: 100
+scenarios:
+  - flow:
+    - get:
+        url: '/health'
+    - post:
+        url: '/rides'
+        json:
+          start_lat: -6.175110
+          start_long: 106.865036
+          end_lat: -6.597147
+          end_long: 106.806038
+          rider_name: Irvin
+          driver_name: John
+          driver_vehicle: Car
+    - get:
+        url: '/rides'
