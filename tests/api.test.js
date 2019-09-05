@@ -182,6 +182,53 @@ describe('API tests', () => {
                     })
                 }).end(done)
         });
+
+        it('should test /rides pagination', (done) => {
+            request(app)
+                .post('/rides').send({
+                    start_lat: '-6.175110',
+                    start_long: '106.865036',
+                    end_lat: '-6.597147',
+                    end_long: '106.806038',
+                    rider_name: 'Irvin',
+                    driver_name: 'John',
+                    driver_vehicle: 'Car'
+                })
+                .then(() => {
+                    request(app).get('/rides?page=1&page_len=2')
+                        .set('Accept', 'application/json')
+                        .expect('Content-Type', 'application/json; charset=utf-8')
+                        .expect(200)
+                        .expect((res) => {
+                            console.log(res.body)
+                            assert.lengthOf(res.body, 2);
+                            assert.include(res.body[0], { rideID: 1 });
+                            assert.include(res.body[1], { rideID: 2 });
+                        }).end(done)
+                });
+        });
+
+        it('should test validate /rides pagination query params', (done) => {
+            request(app)
+                .post('/rides').send({
+                    start_lat: '-6.175110',
+                    start_long: '106.865036',
+                    end_lat: '-6.597147',
+                    end_long: '106.806038',
+                    rider_name: 'Irvin',
+                    driver_name: 'John',
+                    driver_vehicle: 'Car'
+                })
+                .then(() => {
+                    request(app).get('/rides?page=0&page_len=0')
+                        .set('Accept', 'application/json')
+                        .expect('Content-Type', 'application/json; charset=utf-8')
+                        .expect(200, {
+                            error_code: 'VALIDATION_ERROR',
+                            message: 'Invalid query params for pagination'
+                        }).end(done);
+                });
+        });
     });
 
     describe('GET /rides/:id', () => {
