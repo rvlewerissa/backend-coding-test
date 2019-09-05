@@ -45,7 +45,6 @@ router.post('/', jsonParser, async (req, res) => {
         const rows = await db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID);
         res.send(rows[0]);
     } catch (err) {
-        console.log('ERORR APA LAGII: ', err);
         logger.error(err);
         return res.send(generateError(Errors.SERVER_ERROR));
     }
@@ -89,7 +88,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const db = req.db;
     try {
-        const rows = await db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`);
+        const rows = await db.all('SELECT * FROM Rides WHERE rideID= ?', req.params.id);
         if (rows.length === 0) {
             return res.send(generateError(Errors.RIDES_NOT_FOUND_ERROR));
         }
