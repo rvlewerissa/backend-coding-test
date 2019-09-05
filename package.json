@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha tests",
+    "test": "mocha tests && npm run lint",
     "test-temporary": "nyc mocha tests && npm run lint",
     "lint": "eslint index.js src/* tests/*",
     "start": "node index.js",
