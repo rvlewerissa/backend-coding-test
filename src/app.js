@@ -1,9 +1,11 @@
 'use strict';
 
 const express = require('express');
-const app = express();
-
 const bodyParser = require('body-parser');
+
+const logger = require('../helpers/logger');
+
+const app = express();
 const jsonParser = bodyParser.json();
 
 module.exports = (db) => {
@@ -57,6 +59,7 @@ module.exports = (db) => {
 
         db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
             if (err) {
+                logger.error(err);
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
@@ -65,6 +68,7 @@ module.exports = (db) => {
 
             db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {
                 if (err) {
+                    logger.error(err);
                     return res.send({
                         error_code: 'SERVER_ERROR',
                         message: 'Unknown error'
@@ -79,6 +83,7 @@ module.exports = (db) => {
     app.get('/rides', (req, res) => {
         db.all('SELECT * FROM Rides', function (err, rows) {
             if (err) {
+                logger.error(err);
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
@@ -99,6 +104,7 @@ module.exports = (db) => {
     app.get('/rides/:id', (req, res) => {
         db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
             if (err) {
+                logger.error(err);
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
