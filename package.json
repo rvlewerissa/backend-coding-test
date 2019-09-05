@@ -8,6 +8,8 @@
   },
   "scripts": {
     "test": "mocha tests",
+    "test-temporary": "nyc mocha tests && npm run lint",
+    "lint": "eslint index.js src/* tests/*",
     "start": "node index.js",
     "documentation:generate": "apidoc -i documentation/ -o generated/",
     "documentation:serve": "http-server ./generated"
@@ -20,18 +22,38 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
-    "sqlite3": "^4.0.6"
+    "sqlite3": "^4.0.6",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^0.1.3",
+    "@typescript-eslint/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/parser": "^2.1.0",
     "apidoc": "^0.17.7",
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "http-server": "^0.11.1",
+    "husky": "^3.0.5",
     "mocha": "^6.1.4",
-    "supertest": "^4.0.2"
+    "nyc": "^14.1.1",
+    "source-map-support": "^0.5.13",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.2.1"
   },
   "apidoc": {
     "name": "Xendit Preassesment API",
     "version": "0.1.0",
     "description": "Xendit backend coding test documentations",
     "title": "Xendit Preassesment"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test"
+    }
   }
 }
