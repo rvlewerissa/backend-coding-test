@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "nyc mocha tests && npm run lint",
+    "test": "mocha tests",
+    "test-temporary": "nyc mocha tests && npm run lint",
     "lint": "eslint index.js src/* tests/*",
     "start": "node index.js",
     "documentation:generate": "apidoc -i documentation/ -o generated/",
