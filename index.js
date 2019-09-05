@@ -1,14 +1,15 @@
 'use strict';
 
+const sqlite = require('sqlite');
+
 const logger = require('./helpers/logger');
-const port = 8010;
-
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
-
 const buildSchemas = require('./src/schemas');
 
-db.serialize(() => {
+const port = 8010;
+
+async function main() {
+    const db = await sqlite.open(':memory:');
+
     buildSchemas(db);
 
     const app = require('./src/app')(db);
@@ -19,4 +20,6 @@ db.serialize(() => {
             message: `App started and listening on port ${port}`
         });
     });
-});
+}
+
+main();

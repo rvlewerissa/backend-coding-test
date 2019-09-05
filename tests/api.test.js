@@ -1,26 +1,18 @@
 'use strict';
 
 const request = require('supertest');
+const sqlite = require('sqlite');
 const assert = require('chai').assert;
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
-
-const app = require('../src/app')(db);
-const buildSchemas = require('../src/schemas');
+let app;
 
 describe('API tests', () => {
-    before((done) => {
-        db.serialize((err) => {
-            if (err) {
-                return done(err);
-            }
-
-            buildSchemas(db);
-
-            done();
-        });
-    });
+    before(async () => {
+        const db = await sqlite.open(':memory:');
+        app = require('../src/app')(db);
+        const buildSchemas = require('../src/schemas');
+        buildSchemas(db);
+    })
 
     describe('GET /health', () => {
         it('should return health', (done) => {
@@ -45,8 +37,6 @@ describe('API tests', () => {
                     driver_vehicle: 'Car'
                 })
                 .set('Accept', 'application/json')
-                .expect('Content-Type', 'application/json; charset=utf-8')
-                .expect(200)
                 .expect((res) => {
                     assert.include(res.body, {
                         startLat: -6.17511,
@@ -56,7 +46,7 @@ describe('API tests', () => {
                         riderName: 'Irvin',
                         driverName: 'John',
                         driverVehicle: 'Car'
-                    })
+                    });
                 }).end(done)
         });
 
@@ -200,7 +190,6 @@ describe('API tests', () => {
                         .expect('Content-Type', 'application/json; charset=utf-8')
                         .expect(200)
                         .expect((res) => {
-                            console.log(res.body)
                             assert.lengthOf(res.body, 2);
                             assert.include(res.body[0], { rideID: 1 });
                             assert.include(res.body[1], { rideID: 2 });
@@ -224,7 +213,7 @@ describe('API tests', () => {
                         .set('Accept', 'application/json')
                         .expect('Content-Type', 'application/json; charset=utf-8')
                         .expect(200, {
-                            error_code: 'VALIDATION_ERROR',
+                            error_code: 'PAGINATION_VALIDATION_ERROR',
                             message: 'Invalid query params for pagination'
                         }).end(done);
                 });
