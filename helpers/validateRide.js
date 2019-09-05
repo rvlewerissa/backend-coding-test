@@ -9,27 +9,27 @@ module.exports = ({ startLatitude, startLongitude, endLatitude, endLongitude, ri
     }
     if (startLatitude < -90 || startLatitude > 90 || startLongitude < -180 || startLongitude > 180) {
         validation.isValid = false;
-        validation.errorMessage = Errors.START_POSITION_ERROR;
+        validation.errorMessage = Errors.START_POSITION_ERROR.message;
     }
 
     if (endLatitude < -90 || endLatitude > 90 || endLongitude < -180 || endLongitude > 180) {
         validation.isValid = false;
-        validation.errorMessage = Errors.END_POSITION_ERROR;
+        validation.errorMessage = Errors.END_POSITION_ERROR.message;
     }
 
     if (typeof riderName !== 'string' || riderName.length < 1) {
         validation.isValid = false;
-        validation.errorMessage = Errors.RIDER_NAME_ERROR;
+        validation.errorMessage = Errors.RIDER_NAME_ERROR.message;
     }
 
     if (typeof driverName !== 'string' || driverName.length < 1) {
         validation.isValid = false;
-        validation.errorMessage = Errors.DRIVER_NAME_ERROR;
+        validation.errorMessage = Errors.DRIVER_NAME_ERROR.message;
     }
 
     if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {
         validation.isValid = false;
-        validation.errorMessage = Errors.DRIVER_VEHICLE_ERROR;
+        validation.errorMessage = Errors.DRIVER_VEHICLE_ERROR.message;
     }
 
     return validation;

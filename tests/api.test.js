@@ -213,6 +213,7 @@ describe('API tests', () => {
                         .set('Accept', 'application/json')
                         .expect('Content-Type', 'application/json; charset=utf-8')
                         .expect(200, {
+                            error_code: 'PAGINATION_VALIDATION_ERROR',
                             message: 'Invalid query params for pagination'
                         }).end(done);
                 });

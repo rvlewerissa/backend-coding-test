@@ -26,7 +26,7 @@ router.post('/', jsonParser, async (req, res) => {
 
     if (!rideValidation.isValid) {
         return res.send({
-            error_code: 'VALIDATION_ERROR',
+            error_code: Errors.VALIDATION_ERROR.errorCode,
             message: rideValidation.errorMessage
         })
     }
