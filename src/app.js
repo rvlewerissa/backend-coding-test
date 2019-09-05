@@ -81,24 +81,56 @@ module.exports = (db) => {
     });
 
     app.get('/rides', (req, res) => {
-        db.all('SELECT * FROM Rides', function (err, rows) {
-            if (err) {
-                logger.error(err);
+        const hasQueryParams = Object.keys(req.query).length;
+        if (hasQueryParams) {
+            const page = Number(req.query.page);
+            const pageLength = Number(req.query.page_len);
+            if (!page || !pageLength) {
                 return res.send({
-                    error_code: 'SERVER_ERROR',
-                    message: 'Unknown error'
+                    error_code: 'VALIDATION_ERROR',
+                    message: 'Invalid query params for pagination'
                 });
             }
+            const offset = (page - 1) * pageLength;
+            db.all('SELECT * FROM Rides LIMIT $limit OFFSET $offset', { $limit: pageLength, $offset: offset }, function (err, rows) {
+                if (err) {
+                    logger.error(err);
+                    return res.send({
+                        error_code: 'SERVER_ERROR',
+                        message: 'Unknown error'
+                    });
+                }
 
-            if (rows.length === 0) {
-                return res.send({
-                    error_code: 'RIDES_NOT_FOUND_ERROR',
-                    message: 'Could not find any rides'
+                if (rows.length === 0) {
+                    return res.send({
+                        error_code: 'RIDES_NOT_FOUND_ERROR',
+                        message: 'Could not find any rides'
+                    });
+                }
+
+                res.send(rows);
+            })
+        } else {
+            db.all('SELECT * FROM Rides',
+                function (err, rows) {
+                    if (err) {
+                        logger.error(err);
+                        return res.send({
+                            error_code: 'SERVER_ERROR',
+                            message: 'Unknown error'
+                        });
+                    }
+
+                    if (rows.length === 0) {
+                        return res.send({
+                            error_code: 'RIDES_NOT_FOUND_ERROR',
+                            message: 'Could not find any rides'
+                        });
+                    }
+
+                    res.send(rows);
                 });
-            }
-
-            res.send(rows);
-        });
+        }
     });
 
     app.get('/rides/:id', (req, res) => {
